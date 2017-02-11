@@ -205,9 +205,9 @@ def start_photobooth():
 	clear_screen()
 	
 	camera = picamera.PiCamera()  
-	camera.vflip = False
+	camera.vflip = True
 	camera.hflip = True # flip for preview, showing users a mirror image
-	camera.saturation = -100 # comment out this line if you want color images
+	#camera.saturation = -100 # comment out this line if you want color images
 	camera.iso = config.camera_iso
 	
 	pixel_width = 0 # local variable declaration
@@ -230,7 +230,7 @@ def start_photobooth():
 		try: # take the photos
 			for i in range(1,total_pics+1):
 				camera.hflip = True # preview a mirror image
-				camera.start_preview(resolution=(config.monitor_w, config.monitor_h)) # start preview at low res but the right ratio
+				camera.start_preview() #resolution=(config.monitor_w, config.monitor_h)) # start preview at low res but the right ratio
 				time.sleep(2) #warm up camera
 				GPIO.output(led_pin,True) #turn on the LED
 				filename = config.file_path + now + '-0' + str(i) + '.jpg'
@@ -247,7 +247,7 @@ def start_photobooth():
 		finally:
 			camera.close()
 	else:
-		camera.start_preview(resolution=(config.monitor_w, config.monitor_h)) # start preview at low res but the right ratio
+		camera.start_preview() #resolution=(config.monitor_w, config.monitor_h)) # start preview at low res but the right ratio
 		time.sleep(2) #warm up camera
 		
 		try: #take the photos
